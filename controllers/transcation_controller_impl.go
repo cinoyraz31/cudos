@@ -64,6 +64,7 @@ func (t TransactionControllerImpl) FraudDetection(ctx *fiber.Ctx) error {
 					t.DB,
 					transaction.UserId,
 					transaction.TransactionDate,
+					transaction.Id,
 				)
 				score, narration := helpers.FrequencyCheck(userRepeatTransactionCount)
 				chanFreqScore <- fmt.Sprintf("%f", score)

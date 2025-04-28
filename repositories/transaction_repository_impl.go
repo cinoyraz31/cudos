@@ -29,9 +29,10 @@ func (t TransactionRepositoryImpl) GetAverageUserTransaction(db *gorm.DB, UserId
 	return amountBaseline, nil
 }
 
-func (t TransactionRepositoryImpl) UserRepeatOrderTransactionCount(db *gorm.DB, UserId int, TransactionTime time.Time) int64 {
+func (t TransactionRepositoryImpl) UserRepeatOrderTransactionCount(db *gorm.DB, UserId int, TransactionTime time.Time, NewTransactionId int) int64 {
 	var count int64
-	db.Table("transactions").Where("user_id = ? and transaction_date < ?", UserId, TransactionTime).
+	hourAgo := TransactionTime.Add(-1 * time.Hour)
+	db.Table("transactions").Where("user_id = ? and transaction_date between ? and ? && id != ?", UserId, hourAgo, TransactionTime, NewTransactionId).
 		Debug().
 		Count(&count)
 	return count

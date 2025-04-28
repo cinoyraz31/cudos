@@ -1,0 +1,2 @@
+Ini adalah project cudos untuk mencari fraud transaksi, ada 3 keriteria terkait goal bnisnis ini:
+1. Mencari setiap transaksi, dari per transaksi dipastikan diorder oleh user, dan kita harus melihat dari setiap transaksi user 1 jam kebelakang, jadi kuncinya ada di userId, dan transaction_date yang dimana nanti pencarian jumlah transaksi where userId = ?  and transaction_date < ? yang artinya kita mencari kepunyaan userId dan tranasaksi sebelumnya

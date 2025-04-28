@@ -14,6 +14,6 @@ type UserWithTransaction struct {
 
 type TransactionRepository interface {
 	GetTransactions(db *gorm.DB, params requests.TransactionFilter) ([]models.Transaction, error)
-	UserRepeatOrderTransactionCount(db *gorm.DB, UserId int, TransactionTime time.Time) int64
+	UserRepeatOrderTransactionCount(db *gorm.DB, UserId int, TransactionTime time.Time, NewTransactionId int) int64
 	GetAverageUserTransaction(db *gorm.DB, UserId int, NewTransactionId int) (float64, error)
 }
