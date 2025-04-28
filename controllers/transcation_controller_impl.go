@@ -67,7 +67,7 @@ func (t TransactionControllerImpl) FraudDetection(ctx *fiber.Ctx) error {
 					transaction.Id,
 				)
 				score, narration := helpers.FrequencyCheck(userRepeatTransactionCount)
-				chanFreqScore <- fmt.Sprintf("%f", score)
+				chanFreqScore <- score
 				chanFreqNarration <- narration
 			}()
 
@@ -88,11 +88,16 @@ func (t TransactionControllerImpl) FraudDetection(ctx *fiber.Ctx) error {
 			close(chanPatternScore)
 			close(chanPatternPercentage)
 
+			freqScore := <-chanFreqScore
+			freqNarration := <-chanFreqNarration
+			patternScore := <-chanPatternScore
+			patternPercentage := <-chanPatternPercentage
+
 			transactionLists[i].TransactionId = transaction.Id
-			transactionLists[i].DetectionResult.FrequencyCheck.Score = <-chanFreqScore
-			transactionLists[i].DetectionResult.FrequencyCheck.Narration = <-chanFreqNarration
-			transactionLists[i].DetectionResult.PatternCheck.Score = <-chanPatternScore
-			transactionLists[i].DetectionResult.PatternCheck.Percentage = <-chanPatternPercentage
+			transactionLists[i].DetectionResult.FrequencyCheck.Score = freqScore
+			transactionLists[i].DetectionResult.FrequencyCheck.Narration = freqNarration
+			transactionLists[i].DetectionResult.PatternCheck.Score = patternScore
+			transactionLists[i].DetectionResult.PatternCheck.Percentage = patternPercentage
 		}(i, transaction)
 	}
 	wg.Wait()

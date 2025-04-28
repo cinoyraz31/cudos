@@ -13,7 +13,7 @@ func PatternCheck(baselline float64, amount float64) (float64, float64) {
 
 func FrequencyCheck(count int64) (string, string) {
 	var score string
-	narration := fmt.Sprintf("Order frequency: %s order in 1 hour", count)
+	narration := fmt.Sprintf("Order frequency: %d order in 1 hour", count)
 	if count > 8 {
 		score = "90-100"
 	} else if count >= 7 && count <= 8 {
